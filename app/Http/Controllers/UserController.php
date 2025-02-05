@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\User;
-use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
-    // Menampilkan halaman user management dengan data dari database
+    // Menampilkan halaman User Management
     public function index()
     {
         $users = User::all();
@@ -25,14 +24,15 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
+            'name'  => 'required|string|max:255',
             'email' => 'required|email|unique:users,email',
         ]);
 
+        // Simpan user ke database
         User::create([
             'name'   => $request->name,
             'email'  => $request->email,
-            'status' => 'Accepted'
+            'status' => 'Accepted',
         ]);
 
         return redirect()->route('users.index')->with('success', 'User added successfully.');

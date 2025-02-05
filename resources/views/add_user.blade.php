@@ -72,22 +72,20 @@
 
     <script>
         $(document).ready(function() {
-            setTimeout(function() {
-                $.ajax({
-                    url: "http://localhost:3000/run-robot",
-                    method: "POST",
-                    async: true,
-                    success: function(response) {
-                        console.log("✅ Robot started:", response);
-                    },
-                    error: function(error) {
-                        console.error("Error running robot:", error);
-                    }
-                });
-            }, 2000); // Tunggu 2 detik sebelum menjalankan robot
+            console.log("Memulai robot untuk input otomatis...");
+
+            // Panggil server Node.js untuk menjalankan robot
+            $.ajax({
+                url: "http://localhost:3000/run-robot",
+                method: "GET",
+                success: function(response) {
+                    console.log("Robot berhasil dijalankan:", response);
+                },
+                error: function(error) {
+                    console.error("Gagal menjalankan robot:", error);
+                }
+            });
         });
     </script>
-    
-    
 </body>
 </html>
