@@ -8,8 +8,20 @@ use Illuminate\Support\Facades\Http;
 
 class UserController extends Controller
 {
+    // Menampilkan halaman user management dengan data dari database
+    public function index()
+    {
+        $users = User::all();
+        return view('user_management', compact('users'));
+    }
 
-    // Menyimpan data user ke database
+    // Menampilkan halaman tambah user
+    public function create()
+    {
+        return view('add_user');
+    }
+
+    // Menerima data dari form dan menyimpannya ke database
     public function store(Request $request)
     {
         $request->validate([
@@ -17,12 +29,12 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
         ]);
 
-        // Kirim data ke Node.js
-        $response = Http::post('http://localhost:3000/add-user', [
-            'name'  => $request->name,
-            'email' => $request->email
+        User::create([
+            'name'   => $request->name,
+            'email'  => $request->email,
+            'status' => 'Accepted'
         ]);
 
-        return redirect()->route('index')->with('success', 'User added successfully.');
+        return redirect()->route('users.index')->with('success', 'User added successfully.');
     }
 }
